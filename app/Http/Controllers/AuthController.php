@@ -82,6 +82,62 @@ public function logout(Request $request)
 {
     $request->user()->currentAccessToken()->delete();
     return response()->json(['message' => 'Logged out']);
+
+
+
+}
+
+
+public function updateProfile(Request $request){
+               
+           $user = $request->user();
+           
+          $validated = $request->validate([
+           
+          'name' => 'required|string|min:3',
+          'email' => 'required|email|unique:users,email,' . $user->id
+
+          ]);
+
+      
+    $user->update($validated);
+
+  
+    return response()->json([
+        'message' => 'Profile updated successfully',
+        'user' => $user
+    ]);
+
+
+
+
+
+}
+
+
+public function changePassword(Request $request){
+
+  $user = $request->user();
+
+  $validated = $request->validate([
+
+   'password' => 'required|min:6'
+
+
+  ]);
+
+  $hashedPassword = Hash::make($validated['password']);
+
+  $user->update([
+        'password' => $hashedPassword ]);
+ 
+
+    return response()->json([
+        'message' => 'Password changed successfully'
+    ]);
+
 }
 
 }
+
+
