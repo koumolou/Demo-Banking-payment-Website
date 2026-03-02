@@ -7,6 +7,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import Transactions from "./pages/Transactions";
 import Transfer from "./pages/Transfer";
 import TopUp from "./pages/TopUp";
+import Settings from "./pages/Settings";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="transactions" element={<Transactions />} />
                     <Route path="transfer" element={<Transfer />} />
                     <Route path="topup" element={<TopUp />} />
+                    <Route path="settings" element={<Settings />} />
                 </Route>
             </Route>
         </Routes>

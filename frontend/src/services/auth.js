@@ -31,3 +31,28 @@ export const logout = async () => {
   await api.post('/api/logout');
   localStorage.removeItem('token'); // clear token
 };
+
+export const updateProfile = async (credentials) => {
+    try {
+        const response = await api.put('/api/user/update', credentials);
+        return response.data;
+    } catch (error) {
+        if (error.response?.status === 401) return null;
+        throw error;
+    }
+}
+
+export const changePassword = async (credentials) => {
+    try {
+        const response = await api.put('/api/user/password', credentials);
+        return response.data;
+    } catch (error) {
+        if (error.response?.status === 401) return null;
+        throw error;
+    }
+}
+ 
+
+
+
+

@@ -9,7 +9,8 @@ const AuthLayout = ({ children, logo, title }) => {
                 {/* Branding */}
                 <div className="text-center mb-6">
                     <h2 className="text-2xl font-bold text-blue-600">
-                        {CurrentPath === "/dashboard/topup"
+                        {CurrentPath === "/dashboard/topup" ||
+                        "/dashbaord/settings"
                             ? "Fund Your Account"
                             : " 💳 BankApp"}
                     </h2>
