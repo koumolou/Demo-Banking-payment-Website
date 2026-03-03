@@ -37,9 +37,10 @@ export const updateProfile = async (credentials) => {
         const response = await api.put('/api/user/update', credentials);
         return response.data;
     } catch (error) {
-        if (error.response?.status === 401) return null;
-        throw error;
+            if (error.response?.status === 429) {
+    throw new Error('Too many attempts. Please wait a moment.');
     }
+}
 }
 
 export const changePassword = async (credentials) => {
@@ -47,8 +48,11 @@ export const changePassword = async (credentials) => {
         const response = await api.put('/api/user/password', credentials);
         return response.data;
     } catch (error) {
-        if (error.response?.status === 401) return null;
-        throw error;
+        
+
+        if (error.response?.status === 429) {
+    throw new Error('Too many attempts. Please wait a moment.');
+}
     }
 }
  

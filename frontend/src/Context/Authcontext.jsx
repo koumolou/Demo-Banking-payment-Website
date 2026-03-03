@@ -6,17 +6,30 @@ import {
     register as registerApi,
 } from "../services/auth.js";
 
+import { balance as walletbalance } from "../services/wallet.js";
+
 export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [balance, setBalance] = useState(null);
+
+    const refreshBalance = async () => {
+        try {
+            const newb = await walletbalance();
+
+            setBalance(newb);
+        } finally {
+        }
+    };
 
     const login = async (credentials) => {
         setLoading(true);
         try {
             const userData = await apiLogin(credentials);
             setUser(userData);
+            await refreshBalance();
         } finally {
             setLoading(false);
         }
@@ -46,6 +59,9 @@ function AuthProvider({ children }) {
             try {
                 const existingUser = await getUser();
                 setUser(existingUser);
+                if (existingUser) {
+                    await refreshBalance();
+                }
             } catch {
                 setUser(null);
             } finally {
@@ -64,6 +80,8 @@ function AuthProvider({ children }) {
                 login,
                 logout,
                 registerUser,
+                balance,
+                refreshBalance,
             }}
         >
             {children}

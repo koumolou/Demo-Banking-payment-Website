@@ -1,10 +1,12 @@
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import { topup } from "../services/wallet.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../Context/Authcontext.jsx";
 
 const TopUp = () => {
+    const { refreshBalance } = useContext(AuthContext);
     const [amount, setAmount] = useState("");
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState("");
@@ -23,10 +25,12 @@ const TopUp = () => {
 
             try {
                 await topup(numericAmount);
+                refreshBalance();
                 setToast({
                     message: "Transaction successful",
                     type: "success",
                 });
+
                 setAmount("");
             } catch (error) {
                 setToast({

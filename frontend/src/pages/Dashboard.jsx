@@ -8,7 +8,7 @@ import {
 } from "../services/wallet.js";
 
 function Dashboard() {
-    const { user } = useContext(AuthContext);
+    const { user, balance } = useContext(AuthContext);
     const [balancee, setBalance] = useState(null);
     const [transactions, setTransactions] = useState([]);
     const [load, setLoad] = useState(true);
@@ -55,7 +55,7 @@ function Dashboard() {
             <div className="bg-blue-600 text-white rounded-xl p-6 shadow mb-6">
                 <p className="text-sm text-blue-200 mb-1">Total Balance</p>
                 <h2 className="text-4xl font-bold mb-4">
-                    ${balancee?.balance ?? "0.00"}
+                    ${balance?.balance ?? "0.00"}
                 </h2>
                 <div className="flex gap-3">
                     <Link to="/dashboard/topup">

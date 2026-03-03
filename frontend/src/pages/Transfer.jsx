@@ -1,10 +1,12 @@
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import { transfer } from "../services/wallet.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../Context/Authcontext.jsx";
 
 const Transfer = () => {
+    const { refreshBalance } = useContext(AuthContext);
     const [amount, setAmount] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
@@ -27,10 +29,12 @@ const Transfer = () => {
                     amount: numericAmount,
                     receiver_email: email,
                 });
+                refreshBalance();
                 setToast({
                     message: "Transaction successful",
                     type: "success",
                 });
+
                 setAmount("");
                 setEmail("");
             } catch (error) {
