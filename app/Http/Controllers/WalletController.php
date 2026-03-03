@@ -55,62 +55,59 @@ public function transfer(Request $request)
             'message' => 'You cannot transfer to yourself.'
         ], 422);
     }
-
     
     return DB::transaction(function () use ($validated) {
 
-    
-        $sender = User::where('id', auth()->id())
-            ->lockForUpdate()
-            ->first();
+    $sender = User::where('id', auth()->id())
+        ->lockForUpdate()
+        ->first();
 
-        
-        $receiver = User::where('email', $validated['receiver_email'])
-            ->lockForUpdate()
-            ->first();
-        
- $amount = $validated['amount'];
+    $receiver = User::where('email', $validated['receiver_email'])
+        ->lockForUpdate()
+        ->first();
 
- 
-            Transaction::create([
-    'sender_id'    => $sender->id,
-    'receiver_id'  => $receiver->id,
-    'amount'       => $amount,
-    'type'         => 'transfer',
-    'status'       => 'success',   
-    'reference'    => generate_txn_reference('WDL')
-  
-]);
-        
-    
+    $amount = $validated['amount'];
 
-
-
-    
-        if ($sender->balance < $validated['amount']) {
-            return response()->json([
-                'message' => 'Insufficient funds.'
-            ], 422);
-        }
-   
-
-        $sender->balance -= $amount;
-        $receiver->balance += $amount;
-
-        $sender->save();
-        $receiver->save();
-
-        
-    
-    
-
-        
+    if ($sender->balance < $amount) {
         return response()->json([
-            'message' => 'Transfer successful.',
-            'sender_balance' => $sender->balance,
-            'receiver' => $receiver->email
-        ], 200);
-    });
+            'message' => 'Insufficient funds.'
+        ], 422);
+    }
+
+   
+    $sender->balance -= $amount;
+    $receiver->balance += $amount;
+
+    $sender->save();
+    $receiver->save();
+
+    Transaction::create([
+        'sender_id'   => $sender->id,
+        'receiver_id' => $receiver->id,
+        'amount'      => $amount,
+        'type'        => 'transfer',
+        'status'      => 'success',
+        'reference'   =>   generate_txn_reference('WDL')
+    ]);
+
+    Transaction::create([
+    'sender_id'   => $sender->id,
+    'receiver_id' => $receiver->id,
+    'amount'      => $amount,
+    'type'        => 'credit',
+    'status'      => 'success',
+    'reference'   => generate_txn_reference('WDL') 
+]);
+
+
+    return response()->json([
+        'message'        => 'Transfer successful.',
+        'sender_balance' => $sender->balance,
+        'receiver'       => $receiver->email
+    ], 200);
+});
+    
+    
 }
 
 
@@ -124,22 +121,25 @@ public function balance(Request $request){
 
     }
 
+public function transactions(Request $request){
+    $user = auth()->user();
 
-    public function transactions(Request $request){
+    $transactions = Transaction::where(function($query) use ($user) {
        
-    $user = Auth()->user();
-
-    $transactions = Transaction::where('sender_id', $user->id)
-    ->orWhere('receiver_id', $user->id)
+        $query->where('sender_id', $user->id)
+              ->where('type', 'transfer');
+    })->orWhere(function($query) use ($user) {
+  
+        $query->where('receiver_id', $user->id)
+              ->whereIn('type', ['credit', 'topup']);
+    })
     ->orderBy('created_at', 'desc')
     ->get();
 
-     return response()->json([
-    'transactions' => $transactions
-]);
-  
-  
-    }
+    return response()->json([
+        'transactions' => $transactions
+    ]);
+}
 
  
     

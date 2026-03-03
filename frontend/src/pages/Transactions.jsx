@@ -84,17 +84,27 @@ const Transactions = () => {
                                             {tx.created_at.slice(11, 16)}
                                         </span>
                                     </td>
+
+                                    {/* Type badge */}
                                     <td className="py-3">
                                         <span
                                             className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                                                 tx.type === "transfer"
                                                     ? "bg-red-100 text-red-600"
-                                                    : "bg-green-100 text-green-600"
+                                                    : tx.type === "credit"
+                                                      ? "bg-green-100 text-green-600"
+                                                      : "bg-blue-100 text-blue-600"
                                             }`}
                                         >
-                                            {tx.type}
+                                            {tx.type === "transfer"
+                                                ? "Sent"
+                                                : tx.type === "credit"
+                                                  ? "Received"
+                                                  : "Top Up"}
                                         </span>
                                     </td>
+
+                                    {/* Amount */}
                                     <td
                                         className={`py-3 font-medium ${
                                             tx.type === "transfer"
@@ -105,6 +115,7 @@ const Transactions = () => {
                                         {tx.type === "transfer" ? "-" : "+"}$
                                         {tx.amount}
                                     </td>
+
                                     <td className="py-3">
                                         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs">
                                             {tx.status ?? "success"}

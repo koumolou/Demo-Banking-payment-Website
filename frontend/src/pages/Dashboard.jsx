@@ -107,11 +107,32 @@ function Dashboard() {
                                             tx.created_at,
                                         ).toLocaleDateString()}
                                     </td>
-                                    <td className="py-3 text-gray-700 capitalize">
-                                        {tx.type}
+                                    {/* Type badge */}
+                                    <td className="py-3">
+                                        <span
+                                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                                tx.type === "transfer"
+                                                    ? "bg-red-100 text-red-600"
+                                                    : tx.type === "credit"
+                                                      ? "bg-green-100 text-green-600"
+                                                      : "bg-blue-100 text-blue-600"
+                                            }`}
+                                        >
+                                            {tx.type === "transfer"
+                                                ? "Sent"
+                                                : tx.type === "credit"
+                                                  ? "Received"
+                                                  : "Top Up"}
+                                        </span>
                                     </td>
+
+                                    {/* Amount */}
                                     <td
-                                        className={`py-3 font-medium ${tx.type === "transfer" ? "text-red-500" : "text-green-500"}`}
+                                        className={`py-3 font-medium ${
+                                            tx.type === "transfer"
+                                                ? "text-red-500"
+                                                : "text-green-500"
+                                        }`}
                                     >
                                         {tx.type === "transfer" ? "-" : "+"}$
                                         {tx.amount}
