@@ -6,6 +6,7 @@ import { transactions as wallettransactions } from "../services/wallet.js";
 
 function Dashboard() {
     const { user, balance, refreshBalance } = useContext(AuthContext);
+    console.log("Dashboard balance from context:", balance);
 
     const [transactions, setTransactions] = useState([]);
     const [load, setLoad] = useState(true);

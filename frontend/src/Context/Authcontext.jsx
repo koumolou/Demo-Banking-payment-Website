@@ -18,9 +18,11 @@ function AuthProvider({ children }) {
     const refreshBalance = async () => {
         try {
             const newb = await walletbalance();
-
+            console.log("Raw balance response:", newb);
+            console.log("Balance value:", newb?.balance);
             setBalance(newb);
-        } finally {
+        } catch (error) {
+            console.log("Balance error:", error);
         }
     };
 
