@@ -30,7 +30,8 @@ const Signup = () => {
             });
         } catch (err) {
             setToast({
-                message: error.response?.data?.message || "Transaction failed",
+                message:
+                    error.response?.data?.message || "Unable to create account",
                 type: "error",
             });
         }
