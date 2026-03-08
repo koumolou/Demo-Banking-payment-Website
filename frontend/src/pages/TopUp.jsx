@@ -111,7 +111,7 @@ const TopUp = () => {
             {/* Toast */}
             {toast && (
                 <div
-                    className={`fixed top-5 right-5 px-4 py-3 rounded-lg shadow-lg text-white text-sm transition-all
+                    className={`fixed top-15 right-5 px-4 py-3 rounded-lg shadow-lg text-white text-sm transition-all
                         ${toast.type === "success" ? "bg-green-500" : "bg-red-500"}`}
                 >
                     {toast.message}
