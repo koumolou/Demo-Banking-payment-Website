@@ -29,7 +29,7 @@ const DashboardLayout = () => {
                 <div className="md:hidden flex items-center gap-4 p-4 bg-white border-0 shadow-sm">
                     <button
                         onClick={() => setSidebarOpen(true)}
-                        className="text-gray-600"
+                        className="text-gray-600 text-xl"
                     >
                         ☰
                     </button>

@@ -2,14 +2,11 @@ import { AuthContext } from "../Context/Authcontext";
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router";
 import Button from "../components/ui/Button";
-import {
-    balance as walletbalance,
-    transactions as wallettransactions,
-} from "../services/wallet.js";
+import { transactions as wallettransactions } from "../services/wallet.js";
 
 function Dashboard() {
     const { user, balance } = useContext(AuthContext);
-    const [balancee, setBalance] = useState(null);
+
     const [transactions, setTransactions] = useState([]);
     const [load, setLoad] = useState(true);
 
@@ -17,12 +14,8 @@ function Dashboard() {
         const fetchData = async () => {
             setLoad(true);
             try {
-                const [bcheck, tcheck] = await Promise.all([
-                    walletbalance(),
-                    wallettransactions(),
-                ]);
+                const [tcheck] = await Promise.all([wallettransactions()]);
 
-                setBalance(bcheck);
                 setTransactions(tcheck);
             } catch (error) {
                 console.log(error.response?.data?.error);
