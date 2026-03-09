@@ -6,7 +6,7 @@ A full-stack personal banking web application built with **Laravel 12**, **React
 
 ## 🚀 Live Demo
 
-> Coming soon after deployment
+>(https://demo-banking-payment-website.vercel.app/)
 
 ---
 
