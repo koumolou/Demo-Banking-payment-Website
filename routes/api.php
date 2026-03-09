@@ -36,3 +36,9 @@ Route::middleware(['auth:sanctum', 'throttle:5,1'])->group(function () {
 
 // logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+
+Route::get('/debug-balance', function(Request $request) {
+    $users = \App\Models\User::all(['id', 'email', 'balance']);
+    return response()->json($users);
+});
