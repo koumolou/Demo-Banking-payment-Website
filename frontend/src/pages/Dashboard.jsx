@@ -152,7 +152,7 @@ function Dashboard() {
 
                         {/* Mobile cards */}
                         <div className="md:hidden flex flex-col gap-3">
-                            {transactions.slice(0, 5).map((tx, index) => (
+                            {transactions.slice(0, 4).map((tx, index) => (
                                 <div
                                     key={index}
                                     className="flex items-center justify-between p-3 rounded-lg bg-slate-50"

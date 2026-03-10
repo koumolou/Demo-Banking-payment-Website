@@ -130,7 +130,7 @@ const Transactions = () => {
 
                         {/* Mobile cards */}
                         <div className="md:hidden flex flex-col gap-3">
-                            {transactions.map((tx) => (
+                            {transactions.slice(0, 7).map((tx) => (
                                 <div
                                     key={tx.id}
                                     className="p-4 rounded-lg bg-slate-50 flex flex-col gap-2"
